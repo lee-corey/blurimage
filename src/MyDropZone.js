@@ -103,14 +103,38 @@ export default class MyDropzone extends React.Component {
                 <p>Drop that file Here</p>
               )}
             </div>
-            : <div {...getRootProps()} className = "imgDiv" style = {{flexDirection: this.state.imgContainerDirection}}>
+            : <div 
+                {...getRootProps()} 
+                className = "imgDiv" 
+                style = {{flexDirection: this.state.imgContainerDirection}}
+              >
                 <input {...getInputProps()} />
                 <div className = "center">
-                  <img alt="1" onLoad={this.onImgLoad} className = "imgStyle" src={this.props.currentFile} />
+                  <img 
+                    alt="" 
+                    onLoad={this.onImgLoad}  
+                    style = {{
+                      width : this.props.realWidth, 
+                      height: this.props.realHeight
+                    }} 
+                    src={this.props.currentFile} />
                 </div>
-                <div className = "right" style = {{width: this.state.calcWidth, height: this.state.calcHeight}}>
+                <div 
+                  className = "right" 
+                  style = {{width: this.state.calcWidth, height: this.state.calcHeight}}
+                >
                   {
-                    this.state.rightImage && <Blur img={this.state.rightImage} blurRadius = {50} style = {{position: "relative", width: this.state.calcWidth, height: this.state.calcHeight}} enableStyles/>
+                    this.state.rightImage && 
+                    <Blur 
+                      img={this.state.rightImage} 
+                      blurRadius = {50} 
+                      style = {{
+                        position: "relative", 
+                        width: this.state.calcWidth, 
+                        height: this.state.calcHeight
+                      }} 
+                      enableStyles
+                    />
                     // use Blur component for blurring the image.
                   }
                 </div>
