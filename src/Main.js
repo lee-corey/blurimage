@@ -8,32 +8,13 @@ export default class Main extends React.Component {
             imgSrc : ''
         }
     }
-    receiveFile = file => {
+    receiveFile = file => { // if the user drop
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = function (e) {
             this.setState({
-                imgSrc: reader.result
+                imgSrc: reader.result // get the base64 from the File object
             })
-           /* var img = document.createElement("img")
-            const originalWidth = 472;
-            const originalHeight = 836;
-            img.setAttribute("src", reader.result)
-            setTimeout(function(){
-                //console.log(img.height, img.width);
-                let fitWidth = 0;
-                let fitHeight = 0;
-                if(originalWidth/originalHeight > img.width/img.height) {
-                    fitHeight = originalHeight;
-                    fitWidth = img.width / (img.height / originalHeight);
-                }
-                else {
-                    fitWidth = originalWidth;
-                    fitHeight = img.height / (img.width / originalWidth);
-                }
-                console.log(fitWidth, fitHeight);
-            },0)*/
-
         }.bind(this);
     }
     render () {

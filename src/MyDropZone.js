@@ -8,17 +8,14 @@ export default class MyDropzone extends React.Component {
     super(props);
     this.state = {
       isDragEnter: false,
-      width: 0,
-      height: 0,
-      imgContainerDirection: 'row',
+      imgContainerDirection: 'row', // if the space is in the right then flex will row else column
       calcWidth: 0,
       calcHeight: 0,
-      leftImage:'',
       rightImage:''
     };
   }
 
-  async getCroppedImg(image, crop, fileName) {
+  async getCroppedImg(image, crop, fileName) { // cropping image depending the x, y, width, height // will return the url of image
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -52,41 +49,41 @@ export default class MyDropzone extends React.Component {
   }
 
   onDrop = files => {
-    /* if (files.length === 0 || files[0].type.indexOf("image") < 0)
-      window.alert(
-        "This file is not a image file or you have uploaded more than 1 files"
-      );
-    else {*/
-    this.props.receiveFile(files[0]);
-    // }
+    this.props.receiveFile(files[0]); // call the receiveFile in the parent
     this.setState({ isDragEnter: false });
   };
    onImgLoad = async ({target : img}) => {
-    const originalWidth = 472;
-    const originalHeight = 836;
-    this.setState({width: img.offsetWidth, height: img.offsetHeight});
-    const smallWidth = (originalWidth - img.offsetWidth);
-    const smallHeight = (originalHeight - img.offsetHeight);
-    if(smallWidth === 0) {
-      //const leftImageUrl = await this.getCroppedImg(img, {unit:'px',x:0,y:0,width:originalWidth,height:smallHeight}, "left.jpg")
-      //console.log(originalHeight-smallHeight)
-      const rightImageUrl = await this.getCroppedImg(img, {unit:'px',x:0,y:originalHeight-smallHeight*2,width:originalWidth,height:smallHeight}, "right.jpg")
-      this.setState({imgContainerDirection: 'column', calcWidth: originalWidth, calcHeight: smallHeight, rightImage: rightImageUrl})
-    } else {
-      const rightImageUrl = await this.getCroppedImg(img, {unit:'px',x:originalWidth-smallWidth*2,y:0,width:smallWidth,height:originalHeight}, "right.jpg")
+    const originalWidth = 472; // The frame width
+    const originalHeight = 836; // The frame height 
+    this.setState({width: img.offsetWidth, height: img.offsetHeight}); // set the width and height as displayed image's width and height
+    const smallWidth = (originalWidth - img.offsetWidth); // The width of space
+    const smallHeight = (originalHeight - img.offsetHeight); // THe height of space
+    if(smallWidth === 0) { // If the space is in the bottom
+      let rightImageUrl;
+      try{
+        rightImageUrl = await this.getCroppedImg(img, {unit:'px',x:0,y:originalHeight-smallHeight*2,width:originalWidth,height:smallHeight}, "right.jpg") // get the cropped image
+      } catch(e) {
+      }
+      this.setState({imgContainerDirection: 'column', calcWidth: originalWidth, calcHeight: smallHeight, rightImage: rightImageUrl}) // set values in the state and will rerender
+    } else { // If the space is in the right
+      let rightImageUrl;
+      try{
+        rightImageUrl = await this.getCroppedImg(img, {unit:'px',x:originalWidth-smallWidth*2,y:0,width:smallWidth,height:originalHeight}, "right.jpg")
+      } catch(e) {
+      }
       this.setState({imgContainerDirection: 'row', calcWidth: smallWidth, calcHeight: originalHeight, rightImage: rightImageUrl})
     }
   }
   render() {
     return (
       <div className = 'dropzoneContainer'>
-        <Dropzone
+        <Dropzone 
           onDrop={this.onDrop.bind(this)}
           multiple={false}
           accept=""
           onDragEnter={() => this.setState({ isDragEnter: true })}
           onDragLeave={() => this.setState({ isDragEnter: false })}
-        >
+        > 
           {({ getRootProps, getInputProps }) => (
             this.props.currentFile === '' ?
             <div
@@ -108,19 +105,13 @@ export default class MyDropzone extends React.Component {
             </div>
             : <div {...getRootProps()} className = "imgDiv" style = {{flexDirection: this.state.imgContainerDirection}}>
                 <input {...getInputProps()} />
-                {/*
-                <div className = "left" style = {{width: this.state.calcWidth, height: this.state.calcHeight}}>
-                  {
-                    this.state.leftImage && <img alt='' src={this.state.leftImage}/>
-                  }
-                </div>*/
-                }
                 <div className = "center">
                   <img alt="1" onLoad={this.onImgLoad} className = "imgStyle" src={this.props.currentFile} />
                 </div>
                 <div className = "right" style = {{width: this.state.calcWidth, height: this.state.calcHeight}}>
                   {
                     this.state.rightImage && <Blur img={this.state.rightImage} blurRadius = {50} style = {{position: "relative", width: this.state.calcWidth, height: this.state.calcHeight}} enableStyles/>
+                    // use Blur component for blurring the image.
                   }
                 </div>
               </div>
