@@ -4,7 +4,10 @@
   "private": true,
   "dependencies": {
     "react": "^16.9.0",
+    "react-blur": "^0.6.0",
     "react-dom": "^16.9.0",
+    "react-dropzone": "^10.1.9",
+    "react-image-crop": "^8.3.0",
     "react-scripts": "3.1.2"
   },
   "scripts": {

@@ -1,0 +1,52 @@
+.originDrop {
+    width: 100%;
+    height: 100%;
+    margin-left: 0px;
+    border: 2px dotted gray;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fileDragEnter {
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    margin-left: 0px;
+    color: black;
+    padding-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 5px groove gray;
+    background-color: #ccc !important;
+    }
+.fileDragEnter p {
+    margin-top: 9px;
+}
+.dropzoneContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imgDiv {
+    width: 100%;
+    height: 100%;
+    margin-left: 0px;
+    border: 2px dotted gray;
+    display: flex;
+    /*justify-content: center;
+    align-items: center;*/
+}
+.center{
+    font-size:0px;
+}
+.imgStyle {
+    max-width: 472px;
+    max-height: 836px;
+}

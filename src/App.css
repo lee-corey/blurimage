@@ -20,3 +20,10 @@
 .App-link {
   color: #09d3ac;
 }
+.frame {
+  border-color: #09d3ac;
+  border-width: 1px;
+  border-style: solid;
+  width: 472px;
+  height: 836px;
+}
