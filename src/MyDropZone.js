@@ -53,7 +53,7 @@ export default class MyDropzone extends React.Component {
     this.setState({ isDragEnter: false });
   };
    onImgLoad = async ({target : img}) => {
-    const originalWidth = 472; // The frame width
+    /*const originalWidth = 472; // The frame width
     const originalHeight = 836; // The frame height 
     this.setState({width: img.offsetWidth, height: img.offsetHeight}); // set the width and height as displayed image's width and height
     const smallWidth = (originalWidth - img.offsetWidth); // The width of space
@@ -72,7 +72,7 @@ export default class MyDropzone extends React.Component {
       } catch(e) {
       }
       this.setState({imgContainerDirection: 'row', calcWidth: smallWidth, calcHeight: originalHeight, rightImage: rightImageUrl})
-    }
+    }*/
   }
   render() {
     return (
@@ -113,13 +113,9 @@ export default class MyDropzone extends React.Component {
                   <img 
                     alt="" 
                     onLoad={this.onImgLoad}  
-                    style = {{
-                      width : this.props.realWidth, 
-                      height: this.props.realHeight
-                    }} 
-                    src={this.props.currentFile} />
+                    src={'data:image/jpeg;base64,' + Buffer.from(this.props.currentFile).toString('base64')} />
                 </div>
-                <div 
+                {/*<div 
                   className = "right" 
                   style = {{width: this.state.calcWidth, height: this.state.calcHeight}}
                 >
@@ -137,7 +133,7 @@ export default class MyDropzone extends React.Component {
                     />
                     // use Blur component for blurring the image.
                   }
-                </div>
+                </div>*/}
               </div>
           )}
         </Dropzone>

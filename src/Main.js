@@ -15,27 +15,21 @@ export default class Main extends React.Component {
         reader.readAsDataURL(file);
         reader.onloadend = function (e) {
             const temp = this;
-            var i = new Image(); 
-            i.onload = function(){
-                const imageWidth = i.width; // uploaded image width
-                const imageHeight = i.height; // uploaded image height
-                const frameWidth = 472; // frame width
-                const frameHeight = 836; // frame height
-                let realWidth = 0, realHeight = 0; // calced width and height
-                if(imageWidth/imageHeight > frameWidth/frameHeight) { // means we should set the width as frameWidth
-                    realWidth = frameWidth;
-                    realHeight = imageHeight * parseFloat(frameWidth / imageWidth);
-                } else {
-                    realHeight =  frameHeight;
-                    realWidth = imageWidth * parseFloat(frameHeight / imageHeight);
-                }
-                temp.setState({
-                    imgSrc: reader.result, // get the base64 from the File object
-                    realWidth,
-                    realHeight
-                })
-            };
-            i.src = reader.result; 
+            var formData = {};
+            formData["image"] = reader.result;
+            fetch(`//3.88.139.82:9000/blurImage`,
+            {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            }).then(response => response.json())
+              .then(response => {
+                console.log(response.status);
+                console.log(response.data);
+                temp.setState({imgSrc: response.data})
+              });
         }.bind(this);
     }
     render () {
