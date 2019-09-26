@@ -7,8 +7,23 @@ export default class Main extends React.Component {
         this.state = {
             imgSrc : '',
             realWidth: 0,
-            realHeight: 0
+            realHeight: 0,
+            width: 0,
+            height: 0
         }
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+    componentDidMount() {
+      this.updateWindowDimensions();
+      window.addEventListener('resize', this.updateWindowDimensions);
+    }
+    
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+    
+    updateWindowDimensions() {
+      this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
     receiveFile = file => { // if the user drop
         var reader = new FileReader();
@@ -33,8 +48,9 @@ export default class Main extends React.Component {
         }.bind(this);
     }
     render () {
+        console.log(parseFloat(this.state.height * 0.8) )
         return (
-            <div className = 'imageContainer'>
+            <div style = {{height: parseFloat(this.state.height*0.8), width: 472 * parseFloat(parseFloat(this.state.height) * 0.8 / 836)}}>
                 <MyDropzone 
                     receiveFile={file => this.receiveFile(file)} 
                     currentFile = {this.state.imgSrc}
